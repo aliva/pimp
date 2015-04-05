@@ -6,60 +6,66 @@ ppm(){
         return 1
     }
 
-    find_venv_path(){
-        if [ ! -d venv ] && git grev-parse --show-toplevel &>/dev/null
+    PPM_PROJECT_ROOT=`pwd`
+    if [ ! -d `pwd`/venv ]
+    then
+        if git grev-parse --show-toplevel &>/dev/null
         then
-            cd `git rev-parse --show-toplevel`
-        fi
-        if [ -d venv ]
+            PPM_PROJECT_ROOT=`git rev-parse --show-toplevel`
+        elif hg root &>/dev/null
         then
-            VENV_PATH=`pwd`/venv
-        else
-            echo "could not find venv path"
-            die
+            PPM_PROJECT_ROOT=`hg root`
         fi
-    }
-    
-    case $1 in
-    "init")
-        pyvenv --without-pip venv || die
-        cd venv
+    fi
+
+    if [ $1 = "init" ]
+    then
+        pyvenv --without-pip $PPM_PROJECT_ROOT/venv || die
+        cd $PPM_PROJECT_ROOT/venv
         source bin/activate
         if ! ls bin/pip &>/dev/null
         then
             wget https://bootstrap.pypa.io/get-pip.py || die
             python get-pip.py || die
         fi
-        cd ..
+        cd $PPM_PROJECT_ROOT
         touch requirements.txt
-        if ! git rev-parse --show-toplevel &>/dev/null
+        if git rev-parse --show-toplevel &>/dev/null || ! hg root &>/dev/null
         then
             git init
+            echo "/venv/" >> .gitignore
         fi
         deactivate
         echo "DONE!"
-        ;;
+        return
+    fi
+
+    if [ ! -d $PPM_PROJECT_ROOT/venv ]
+    then
+        echo "could not find venv dir"
+        echo "there should be a venv directory in current path or project root"
+        die
+    fi
+
+    case $1 in
     "activate")
-        find_venv_path
-        source $VENV_PATH/bin/activate
+        source $PPM_PROJECT_ROOT/venv/bin/activate
         ;;
     "deactivate")
         deactivate
         ;;
     "shell")
-        find_venv_path
-        source $VENV_PATH/bin/activate
+        source $PPM_PROJECT_ROOT/venv/bin/activate
         python
         deactivate
         ;;
     "run")
         if [ -z $2 ]
         then
-            echo "ppm run script.py"
+            echo "ppm run <script.py>"
             die
         else
-            find_venv_path
-            source $VENV_PATH/bin/activate
+            source $PPM_PROJECT_ROOT/venv/bin/activate
             python $2
             deactivate
         fi
