@@ -9,7 +9,7 @@ ppm(){
     PPM_PROJECT_ROOT=`pwd`
     if [ ! -d `pwd`/venv ]
     then
-        if git grev-parse --show-toplevel &>/dev/null
+        if git rev-parse --show-toplevel &>/dev/null
         then
             PPM_PROJECT_ROOT=`git rev-parse --show-toplevel`
         elif hg root &>/dev/null
