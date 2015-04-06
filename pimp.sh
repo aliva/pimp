@@ -64,8 +64,13 @@ pimp(){
             deactivate
         fi
         ;;
+    "install")
+        shift
+        source $PIMP_PROJECT_ROOT/venv/bin/activate
+        pip install $@
+        deactivate
+        ;;
     *)
-        echo "other"
         ;;
     esac
 }
@@ -73,7 +78,7 @@ pimp(){
 _pimp(){
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="init activate run deactivate shell"
+    opts="init activate run deactivate shell install"
 
     if [ $COMP_CWORD == 1 ]
     then
