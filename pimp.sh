@@ -1,11 +1,6 @@
 #!/bin/sh
 
 pimp(){
-    die(){
-        echo "EXIT"
-        return 1
-    }
-
     PIMP_PROJECT_ROOT=`pwd`
     if [ ! -d `pwd`/venv ]
     then
@@ -20,13 +15,13 @@ pimp(){
 
     if [ $1 = "init" ]
     then
-        pyvenv --without-pip $PIMP_PROJECT_ROOT/venv || die
+        pyvenv --without-pip $PIMP_PROJECT_ROOT/venv || return 1
         cd $PIMP_PROJECT_ROOT/venv
         source bin/activate
         if ! ls bin/pip &>/dev/null
         then
-            wget https://bootstrap.pypa.io/get-pip.py || die
-            python get-pip.py || die
+            wget https://bootstrap.pypa.io/get-pip.py || return 1
+            python get-pip.py || return 1
         fi
         cd $PIMP_PROJECT_ROOT
         touch requirements.txt
@@ -44,7 +39,7 @@ pimp(){
     then
         echo "could not find venv dir"
         echo "there should be a venv directory in current path or project root"
-        die
+        return 1
     fi
 
     case $1 in
@@ -63,7 +58,6 @@ pimp(){
         if [ -z $2 ]
         then
             echo "pimp run <script.py>"
-            die
         else
             source $PIMP_PROJECT_ROOT/venv/bin/activate
             python $2
