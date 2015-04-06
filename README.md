@@ -26,7 +26,7 @@ pimp activate
 
 ### run
 
-run pythin script within virtualenv, you don't need call activate directly
+run python script within virtualenv, you don't need call activate directly
 
 ```
 pimp run <script.py>
@@ -34,7 +34,7 @@ pimp run <script.py>
 
 ### shell
 
-run python shell
+start python shell
 
 ```
 pimp shell
