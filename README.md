@@ -1,11 +1,11 @@
-# PPM
+# PIMP
 
 ## install
 
 add this line to your `.bashrc` file
 
 ```
-source /path/to/ppm.sh
+source /path/to/pimp.sh
 ```
 
 ## commands
@@ -13,23 +13,23 @@ source /path/to/ppm.sh
 ### init
 
 ```
-ppm init
+pimp init
 ```
 
 ### activate
 
 ```
-ppm activate
+pimp activate
 ```
 
 ### run
 
 ```
-ppm run <script.py>
+pimp run <script.py>
 ```
 
 ### shell
 
 ```
-ppm shell
+pimp shell
 ```
