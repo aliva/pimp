@@ -13,7 +13,7 @@ pimp(){
         fi
     fi
 
-    if [ $1 = "init" ]
+    if [[ $1 = "init" ]]
     then
         pyvenv --without-pip $PIMP_PROJECT_ROOT/venv || return 1
         cd $PIMP_PROJECT_ROOT/venv
