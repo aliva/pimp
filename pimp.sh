@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 pimp(){
     die(){
@@ -81,15 +81,10 @@ _pimp(){
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="init activate run deactivate shell"
 
-    if [ $COMP_CWORD == 1 ] && [ $prev = "run" ]
-    then
-        _filedir
-    fi
-
     if [ $COMP_CWORD == 1 ]
     then
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
         return 0
     fi
 }
-complete -F _pimp pimp
+complete -o default -F _pimp pimp
