@@ -89,7 +89,7 @@ _pimp_init(){
     
     # create git repo if doesn't exists
     # add /venv/ to gitignore
-    if git rev-parse --show-toplevel &>/dev/null || ! hg root &>/dev/null
+    if ! git rev-parse --show-toplevel &>/dev/null && ! hg root &>/dev/null
     then
         git init
         
