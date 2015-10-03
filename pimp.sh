@@ -84,6 +84,11 @@ _pimp_init(){
     # run pyvenv
     $PIMP_VENV_COMMAND $PIMP_PROJECT_ROOT/venv || return 1
     
+    # upgrade pip
+    source $PIMP_PROJECT_ROOT/venv/bin/activate
+    pip install pip --upgrade
+    deactivate
+    
     # create requirements.txt
     touch requirements.txt
     
